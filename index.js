@@ -13,9 +13,13 @@ const noImportReact = {
     return {
       ImportDeclaration (node) {
         if (node.source.value !== 'react') return
-        if (node.specifiers[0].type !== 'ImportDefaultSpecifier') return
+        if (!node.specifiers.map(s => s.type).includes('ImportDefaultSpecifier')) return
 
-        context.report(node, 'Import React generically. More info: https://twitter.com/sebmarkbage/status/1250284377138802689?s=19')
+        if (node.specifiers.length > 1) {
+          context.report(node, 'Split the React import in two and import React generically')
+        } else {
+          context.report(node, 'Import React generically. More info: https://twitter.com/sebmarkbage/status/1250284377138802689?s=19')
+        }
       }
     }
   }
@@ -38,7 +42,7 @@ const noCustomMoment = {
   create: function (context) {
     return {
       Literal (node) {
-        if (node.value !== 'YYYY-MM-DD') return
+        if (node.value !== 'YYYY-MM-DD') return // eslint-disable-line
 
         context.report(node, 'Use stringToDate and dateToString moment helpers')
       }
