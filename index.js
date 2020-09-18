@@ -50,10 +50,23 @@ const noCustomMoment = {
   }
 }
 
+const noRenderIf = {
+  create: function (context) {
+    return {
+      CallExpression (node) {
+        if (node.callee.name !== 'renderIf') return
+
+        context.report(node, 'renderIf is deprecated. Use conditional rendering: https://reactjs.org/docs/conditional-rendering.html#inline-if-with-logical--operator')
+      }
+    }
+  }
+}
+
 module.exports = {
   rules: {
     'no-import-react': noImportReact,
     'no-autobind': noAutobind,
-    'no-custom-moment': noCustomMoment
+    'no-custom-moment': noCustomMoment,
+    'no-render-if': noRenderIf
   }
 }
