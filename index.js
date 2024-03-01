@@ -16,7 +16,7 @@ const ruleFiles = fs
   .filter((file) => file !== 'index.js' && !file.endsWith('test.js'))
 
 const rules = Object.fromEntries(
-  ruleFiles.map((file) => [path.basename(file, '.js'), require(`./${file}`)])
+  ruleFiles.map((file) => [path.basename(file, '.js'), require(path.join(__dirname, eslintFolder, file))])
 )
 
 module.exports = { rules }
