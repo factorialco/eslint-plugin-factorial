@@ -18,7 +18,7 @@ module.exports = {
         while (
           parent.type !== 'ImportDeclaration' &&
           parent.type !== 'Program' &&
-          parent.type !== 'Program' &&
+          parent.type !== 'TSTypeAliasDeclaration' &&
           parent.type !== 'ArrowFunctionExpression' &&
           parent.type !== 'FunctionDeclaration' &&
           parent.type !== 'FunctionExpression'
