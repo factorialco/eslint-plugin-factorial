@@ -19,6 +19,8 @@ module.exports = {
           parent.type !== 'ImportDeclaration' &&
           parent.type !== 'Program' &&
           parent.type !== 'TSTypeAliasDeclaration' &&
+          parent.type !== 'TSTypeReference' &&
+          parent.type !== 'TSTypeAnnotation' &&
           parent.type !== 'ArrowFunctionExpression' &&
           parent.type !== 'FunctionDeclaration' &&
           parent.type !== 'FunctionExpression'
