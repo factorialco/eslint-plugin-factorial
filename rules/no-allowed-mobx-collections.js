@@ -59,7 +59,14 @@ module.exports = {
     return {
       ImportDeclaration: function (node) {
         const value = node.source.value
-        if (value && value.includes('store/collections')) {
+
+        const validImport = node.importKind !== 'type'
+        const validSource = value && value.includes('store/collections')
+        const validSpecifier = node.specifiers.filter((specifier) => {
+          return specifier.importKind === 'value'
+        }).length > 0
+
+        if (validImport && validSource && validSpecifier) {
           if (!allowedCollections.includes(value)) {
             reportWarning(node)
           }
