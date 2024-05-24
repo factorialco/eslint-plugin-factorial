@@ -14,8 +14,9 @@ module.exports = {
     return {
       JSXOpeningElement: function (node) {
         const isDesignSystem = fileName.includes('design-system')
+        const isSpec = fileName.endsWith('spec.tsx')
 
-        if (!isDesignSystem && node.name.type === 'JSXIdentifier' && node.name.name.match(/^[a-z]/)) {
+        if (!isDesignSystem && !isSpec && node.name.type === 'JSXIdentifier' && node.name.name.match(/^[a-z]/)) {
           reportWarning(node)
         }
       },
