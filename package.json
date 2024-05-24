@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-factorial",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "main": "index.js",
   "dependencies": {
     "yaml": "^2.4.0"

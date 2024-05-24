@@ -1,6 +1,8 @@
 /** @type {import('eslint').Rule.RuleModule} */
 module.exports = {
   create(context) {
+    const fileName = context.getFilename()
+
     const reportWarning = (node) => {
       context.report({
         node,
@@ -11,7 +13,9 @@ module.exports = {
 
     return {
       JSXOpeningElement: function (node) {
-        if (node.name.type === 'JSXIdentifier' && node.name.name.match(/^[a-z]/)) {
+        const isDesignSystem = fileName.includes('design-system')
+
+        if (!isDesignSystem && node.name.type === 'JSXIdentifier' && node.name.name.match(/^[a-z]/)) {
           reportWarning(node)
         }
       },
