@@ -10,8 +10,8 @@ module.exports = {
     }
 
     return {
-      JSXIdentifier: function (node) {
-        if (node.name.match(/^[a-z]/)) {
+      JSXOpeningElement: function (node) {
+        if (node.name.type === 'JSXIdentifier' && node.name.name.match(/^[a-z]/)) {
           reportWarning(node)
         }
       },
