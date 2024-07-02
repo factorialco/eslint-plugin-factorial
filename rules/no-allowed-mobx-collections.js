@@ -52,7 +52,7 @@ module.exports = {
       context.report({
         node,
         message:
-          'You are not allowed to use this collection in this module. Try to use GraphQL counterpart',
+          'Try to use GraphQL instead of this mobx-rest collection',
       })
     }
 
