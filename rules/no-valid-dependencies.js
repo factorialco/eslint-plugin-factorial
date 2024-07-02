@@ -18,7 +18,7 @@ const formatFilename = (filename, removeExtension = false) => {
   return result.replace(/(\..*)$/, '')
 }
 
-const declaredDepenency = (fileName, matchNode, package) => {
+const declaredDepenency = (fileName, moduleNode, package) => {
   if (!fs.existsSync(package)) {
     console.warn(
       `Unable to decide if this import in '${fileName}' is a valid dependency because '${package}' file doesn't exists.`
@@ -32,7 +32,7 @@ const declaredDepenency = (fileName, matchNode, package) => {
       fs.readFileSync(package, 'utf8')
     )
 
-    return dependencies.includes(matchNode)
+    return dependencies.includes(moduleNode)
   } catch (error) {
     console.error(error)
     console.warn(
@@ -96,7 +96,7 @@ module.exports = {
         const package = path.join(process.cwd(), 'src/modules', moduleFileName, 'package.yml')
 
         // Check if is a declared dependency in the package.yml
-        if (!declaredDepenency(fileName, matchNode, package)) {
+        if (!declaredDepenency(fileName, moduleNode, package)) {
           context.report({
             node,
             message: `Avoid using elements from another module that are not declared as valid dependency. Review the list of 'dependencies' in file ${formatFilename(
