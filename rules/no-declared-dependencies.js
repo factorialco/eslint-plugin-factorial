@@ -19,7 +19,7 @@ module.exports = {
     return {
       ImportDeclaration: function (node) {
         const fileName = context.getFilename()
-        const regex = /^modules\/(?<module>[^\/]+)/
+        const regex = /modules\/(?<module>[^\/]+)/
 
         const value = node.source.value
 
@@ -31,34 +31,35 @@ module.exports = {
           const { module: moduleNode } = matchNode.groups
 
           if (moduleFileName === moduleNode) return
+          if (moduleNode === 'core') return
 
-          const package = path.join(process.cwd(), 'src/modules', moduleNode, 'package.yml')
+          const package = path.join(process.cwd(), 'src/modules', moduleFileName, 'package.yml')
 
           if (!fs.existsSync(package)) {
             console.warn(
-              `Unable to decide if this import in '${fileName}' is a valid one because '${package}' file doesn't exists.`
+              `Unable to decide if this import in '${fileName}' is a valid dependency because '${package}' file doesn't exists.`
             )
 
             return
           }
 
           try {
-            const { public: publicImports } = yaml.parse(
+            const { dependencies = [] } = yaml.parse(
               fs.readFileSync(package, 'utf8')
             )
 
-            if (!publicImports.includes(value)) {
+            if (!dependencies.includes(matchNode)) {
               context.report({
                 node,
-                message: `Avoid using elements from another module that are not declared as public.\n\nYou can update the file ${formatFilename(
+                message: `Avoid using elements from another module that are not declared as valid dependency. Review the list of 'dependencies' in file ${formatFilename(
                   package
-                )} and add ${value}\n\n- To the public list so that dependency can be used outside of the module.\n\n`,
+                )} and decide if '${moduleNode}' should be a dependency for this module.`,
               })
             }
           } catch (error) {
             console.error(error)
             console.warn(
-              `Unable to decide if this import in '${fileName}' is a valid one because '${package}' file is not a valid YAML.`
+              `Unable to decide if this import in '${fileName}' is a valid dependency because '${package}' file is not a valid YAML.`
             )
           }
         }
