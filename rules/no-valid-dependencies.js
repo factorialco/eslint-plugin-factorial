@@ -2,7 +2,7 @@ const path = require('path')
 const fs = require('fs')
 const yaml = require('yaml')
 
-const exceptions = ['navigation.ts', 'sidebar.ts', 'events.ts']
+const exceptions = ['navigation.ts', 'sidebar.ts', 'events.ts', 'entrypoint.ts']
 
 const specialFile = (fileName) => {
   return exceptions.some((exception) => fileName.endsWith(exception))
