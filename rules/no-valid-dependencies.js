@@ -2,7 +2,7 @@ const path = require('path')
 const fs = require('fs')
 const yaml = require('yaml')
 
-const exceptions = ['navigation.ts', 'sidebar.ts', 'events.ts', 'entrypoint.ts']
+const exceptions = ['navigation', 'sidebar', 'events', 'entrypoint']
 
 const specialFile = (fileName) => {
   return exceptions.some((exception) => fileName.endsWith(exception))
@@ -82,7 +82,7 @@ module.exports = {
         // Invalid dependency: Core must to have dependencies to other modules
         if (moduleFileName === 'core') {
           // Core can import special files because they will be bundled together
-          if (specialFile(moduleNode)) return
+          if (specialFile(value)) return
 
           context.report({
             node,
