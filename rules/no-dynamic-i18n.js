@@ -15,7 +15,7 @@ module.exports = {
         // - i18n.t(`foo.bar`)
         const valid = (
           (node.arguments[0].type === 'Literal') ||
-          (node.arguments[0].type === 'TemplateLiteral' && path.value.arguments[0].quasis.length === 1)
+          (node.arguments[0].type === 'TemplateLiteral' && node.arguments[0].quasis.length === 1)
         )
 
         if (!valid) {
