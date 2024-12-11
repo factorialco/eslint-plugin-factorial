@@ -1,6 +1,6 @@
 module.exports = {
   create(context) {
-    const funcs = ['t', 'tp', 'tRole', 'tCurrent', 'getKey']
+    const funcs = ['t', 'tp', 'tRole', 'tCurrent', 'getKey', 'tView']
 
     return {
       CallExpression: function (node) {
