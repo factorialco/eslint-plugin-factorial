@@ -19,6 +19,24 @@ module.exports = {
           })
         }
       },
+
+      TSIndexedAccessType(node) {
+        // Check if the object type is a typeof expression wrapped in parentheses
+        const isTypeofObject = node.objectType.type === 'TSParenthesizedType' &&
+          node.objectType.typeAnnotation.type === 'TSTypeQuery';
+
+        // Check if the index type is a keyof typeof expression
+        const isKeyofTypeof = node.indexType.type === 'TSTypeOperator' &&
+          node.indexType.operator === 'keyof' &&
+          node.indexType.typeAnnotation.type === 'TSTypeQuery';
+
+        if (isTypeofObject && isKeyofTypeof) {
+          context.report({
+            node,
+            message: "Consider using a more explicit type definition instead of extracting values using indexed access type.",
+          });
+        }
+      }
     }
   },
 }
